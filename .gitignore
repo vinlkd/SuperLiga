@@ -1,0 +1,8 @@
+bin/
+obj/
+artifacts/
+.buildcheck*/
+Properties/PublishProfiles/
+*.PublishSettings
+*.pubxml.user
+

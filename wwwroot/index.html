@@ -1,0 +1,217 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>SuperLiga</title>
+    <link rel="stylesheet" href="/css/site.css?v=7" />
+  </head>
+  <body>
+    <header>
+      <div class="brand">SUPER<span>LIGA</span></div>
+      <nav>
+        <button data-view="home">Times</button
+        ><button data-view="partida">Começar jogo</button
+        ><button data-view="jogos">Jogos anteriores</button
+        ><button data-view="classificacao">Classificação</button>
+      </nav>
+    </header>
+    <main>
+      <section id="home" class="view">
+        <div class="hero">
+          <div>
+            <small>CAMPEONATO DE VÔLEI</small>
+            <h1>Panazzolo<br /><em>SuperLiga</em></h1>
+          </div>
+          <form id="form-time" enctype="multipart/form-data">
+            <h2>Cadastrar time</h2>
+            <label>Nome<input name="nome" required maxlength="80" /></label
+            ><label
+              >Logo<input
+                name="logo"
+                type="file"
+                accept="image/png,image/jpeg,image/webp" /></label
+            ><button class="primary">Salvar e adicionar jogadores</button>
+          </form>
+        </div>
+        <h2>Times cadastrados</h2>
+        <div id="times" class="cards"></div>
+      </section>
+      <section id="jogadores" class="view hidden">
+        <button class="back" data-view="home">← Voltar aos times</button>
+        <div class="section-title">
+          <div>
+            <small>ELENCO 4x2</small>
+            <h1 id="nome-time"></h1>
+          </div>
+          <div class="team-tools">
+            <strong id="contador"></strong
+            ><button id="editar-time-detalhe">Editar time</button
+            ><button id="excluir-time-detalhe" class="danger-btn">
+              Excluir time
+            </button>
+          </div>
+        </div>
+        <form id="form-jogador" class="inline">
+          <input name="nome" placeholder="Nome do jogador" required /><input
+            name="numeroCamisa"
+            type="number"
+            min="0"
+            max="99"
+            placeholder="Camisa"
+            required
+          /><select name="posicao">
+            <option>Levantador</option>
+            <option>Atacante</option></select
+          ><button class="primary">Adicionar jogador</button>
+        </form>
+        <div id="lista-jogadores" class="players"></div>
+      </section>
+      <section id="partida" class="view hidden">
+        <div class="section-title">
+          <div>
+            <small id="partida-status">NOVA PARTIDA</small>
+            <h1 id="partida-titulo">Começar jogo</h1>
+            <p id="partida-descricao">
+              Selecione os times e preencha a súmula antes da partida.
+            </p>
+          </div>
+        </div>
+        <form id="form-partida" class="match-selector">
+          <select id="time-a" required aria-label="Primeiro time"></select
+          ><b>VS</b
+          ><select id="time-b" required aria-label="Segundo time"></select
+          ><select id="fase-partida" required aria-label="Fase da partida"><option>Classificatória</option><option>Semifinal</option><option>Final</option></select
+          ><button class="primary">Montar súmula</button>
+        </form>
+        <div id="sumula"></div>
+        <div id="placar"></div>
+      </section>
+      <section id="jogos" class="view hidden">
+        <div class="section-title"><div><small>CAMPEONATO</small><h1>Jogos anteriores</h1><p>Cadastre os resultados que ocorreram antes do uso do sistema.</p></div></div>
+        <div class="historico-box">
+          <h2>Registrar resultado</h2>
+          <form id="form-historico" class="historico-form">
+            <select id="historico-time-a" required aria-label="Time A"></select>
+            <input id="historico-sets-a" type="number" min="0" max="3" placeholder="Sets A" required />
+            <b>VS</b>
+            <input id="historico-sets-b" type="number" min="0" max="3" placeholder="Sets B" required />
+            <select id="historico-time-b" required aria-label="Time B"></select>
+            <button class="primary">Salvar resultado</button>
+          </form>
+          <small>Jogos antigos entram na classificação, mas não geram scout individual.</small>
+        </div>
+        <div id="lista-jogos" class="games-list"></div>
+      </section>
+      <section id="classificacao" class="view hidden">
+        <div class="section-title">
+          <div>
+            <small>CAMPEONATO</small>
+            <h1>Classificação</h1>
+          </div>
+        </div>
+        <div id="podio" class="podio"></div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Time</th>
+                <th>J</th>
+                <th>V</th>
+                <th>D</th>
+                <th>SG</th>
+                <th>SP</th>
+                <th>Pts</th>
+              </tr>
+            </thead>
+            <tbody id="tabela"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <dialog id="editar-time">
+      <form id="form-editar-time" enctype="multipart/form-data">
+        <h2>Editar time</h2>
+        <input type="hidden" name="id" /><label
+          >Nome<input name="nome" required maxlength="80" /></label
+        ><label
+          >Nova logo (opcional)<input
+            name="logo"
+            type="file"
+            accept="image/png,image/jpeg,image/webp"
+        /></label>
+        <div class="actions">
+          <button type="button" data-close-dialog="editar-time">Cancelar</button
+          ><button class="primary">Salvar alterações</button>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="tipo-ponto-dialog" class="scout-dialog"><form id="form-tipo-ponto"><small>PONTO</small><h2>Confirmar ponto</h2><input id="ponto-time-id" type="hidden"><label id="ponto-jogador-label">Quem fez o ponto?<select id="ponto-jogador-id"></select></label><div id="point-types" class="point-types"></div><button type="button" data-close-dialog="tipo-ponto-dialog">Cancelar</button></form></dialog>
+    <dialog id="scout-dialog" class="scout-dialog"><div class="scout-head"><div><small>PARTIDA</small><h2 id="scout-titulo">Scout da final</h2></div><button type="button" data-close-dialog="scout-dialog">Fechar</button></div><div id="mvp-partida"></div><div id="scout-tabela" class="table-wrap"></div><form id="form-cartao"><h3>Aplicar cartão</h3><div class="card-form"><select id="cartao-time" required></select><select id="cartao-jogador" required></select><select id="cartao-tipo"><option value="Amarelo">Cartão amarelo</option><option value="Vermelho">Cartão vermelho</option></select><button class="primary">Registrar</button></div></form><div id="cartoes-lista"></div></dialog>
+    <dialog id="primeiro-saque-dialog" class="first-serve-dialog">
+      <form method="dialog">
+        <small>INÍCIO DA PARTIDA</small>
+        <h2>Qual time vai começar sacando?</h2>
+        <div id="primeiro-saque-times" class="first-serve-times"></div>
+        <button type="button" data-close-dialog="primeiro-saque-dialog">Voltar</button>
+      </form>
+    </dialog>
+    <dialog id="editar-jogador">
+      <form id="form-editar-jogador">
+        <h2>Editar jogador</h2>
+        <input type="hidden" name="id" />
+        <label>Nome<input name="nome" required maxlength="100" /></label>
+        <label
+          >Número da camisa<input
+            name="numeroCamisa"
+            type="number"
+            min="0"
+            max="99"
+            required
+        /></label>
+        <label
+          >Função<select name="posicao">
+            <option value="1">Levantador</option>
+            <option value="2">Atacante</option>
+          </select></label
+        >
+        <div class="actions">
+          <button type="button" data-close-dialog="editar-jogador">
+            Cancelar</button
+          ><button class="primary">Salvar alterações</button>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="confirmar-dialog" class="confirm-dialog">
+      <h2 id="confirmar-titulo"></h2>
+      <p id="confirmar-mensagem"></p>
+      <div class="actions">
+        <button data-close-dialog="confirmar-dialog">Cancelar</button
+        ><button id="confirmar-acao" class="danger-confirm">
+          Sim, excluir
+        </button>
+      </div>
+    </dialog>
+    <dialog id="substituicao-dialog" class="sub-dialog">
+      <form id="form-substituicao">
+        <small>SUBSTITUIÇÃO</small>
+        <h2>Escolha os jogadores</h2><label>Time<select id="sub-time-id" required></select></label>
+        <label
+          >Jogador que vai sair<select id="sub-sai" required></select
+        ></label>
+        <div class="swap-arrow">↓</div>
+        <label
+          >Jogador que vai entrar<select id="sub-entra" required></select
+        ></label>
+        <div class="actions">
+          <button type="button" data-close-dialog="substituicao-dialog">
+            Cancelar</button
+          ><button class="primary">Confirmar substituição</button>
+        </div>
+      </form>
+    </dialog>
+    <div id="toast"></div>
+    <script src="/js/app.js?v=19"></script>
+  </body>
+</html>
