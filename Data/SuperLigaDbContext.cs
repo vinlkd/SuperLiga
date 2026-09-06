@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SuperLiga.Api.Models;
 namespace SuperLiga.Api.Data;
+
 public class SuperLigaDbContext(DbContextOptions<SuperLigaDbContext> options) : DbContext(options)
 {
     public DbSet<Time> Times => Set<Time>();

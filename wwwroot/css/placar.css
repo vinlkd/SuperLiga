@@ -1,0 +1,43 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, Arial, sans-serif;
+  background: #071426;
+  color: #fff;
+}
+
+* { box-sizing: border-box; }
+body { min-height: 100vh; margin: 0; display: flex; flex-direction: column; background: radial-gradient(circle at top, #173b72, #071426 60%); }
+.hidden { display: none !important; }
+.display-header { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 20px 4vw; border-bottom: 2px solid #3b82f6; }
+.brand { font-size: clamp(22px, 3vw, 42px); font-weight: 950; letter-spacing: -1px; }
+.brand span { color: #60a5fa; }
+.display-meta { display: flex; align-items: center; gap: 16px; }
+.display-meta strong { color: #bfdbfe; }
+#conexao { color: #86efac; font-weight: 800; }
+#conexao.connecting { color: #fde68a; }
+#conexao.offline { color: #fca5a5; }
+button { padding: 10px 15px; border: 1px solid #60a5fa; border-radius: 8px; background: #1d4ed8; color: #fff; font-weight: 800; cursor: pointer; }
+main { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(120px, 14vw) minmax(0, 1fr); gap: 2vw; align-items: stretch; padding: 3vh 3vw; }
+.team-panel { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 0; padding: 3vh 2vw; border: 3px solid #2563eb; border-radius: 24px; background: #0f274bde; box-shadow: 0 24px 80px #0006; }
+.team-panel h1 { max-width: 100%; margin: 0; overflow: hidden; text-overflow: ellipsis; font-size: clamp(28px, 5vw, 76px); text-align: center; white-space: nowrap; }
+.sets { margin-top: 1vh; color: #bfdbfe; font-size: clamp(20px, 2.4vw, 38px); font-weight: 800; }
+.sets span { color: #fff; }
+.points { font-size: clamp(110px, 24vw, 360px); line-height: .9; font-weight: 950; letter-spacing: -12px; }
+.center-panel { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.center-panel span { color: #93c5fd; font-size: clamp(18px, 2vw, 30px); font-weight: 900; }
+.center-panel strong { font-size: clamp(55px, 9vw, 135px); line-height: 1; }
+.center-panel b { margin: 5vh 0; color: #60a5fa; font-size: clamp(28px, 4vw, 60px); }
+.center-panel p { color: #bfdbfe; font-weight: 900; }
+.winner { border-color: #22c55e; box-shadow: 0 0 50px #22c55e66; }
+.winner::before { content: "VENCEDOR"; position: absolute; top: 20px; padding: 8px 18px; border-radius: 999px; background: #22c55e; font-weight: 950; }
+.message { margin: auto; padding: 25px; font-size: 24px; text-align: center; }
+
+@media (max-width: 760px) {
+  .display-header { align-items: flex-start; }
+  .display-meta { flex-wrap: wrap; justify-content: flex-end; }
+  main { grid-template-columns: 1fr 70px 1fr; gap: 8px; padding: 15px 8px; }
+  .team-panel { padding: 15px 5px; border-radius: 14px; }
+  .points { font-size: clamp(90px, 25vw, 190px); letter-spacing: -7px; }
+  .center-panel b { margin: 25px 0; }
+  .team-panel h1 { font-size: clamp(20px, 5vw, 38px); }
+}

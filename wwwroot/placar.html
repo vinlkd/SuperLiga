@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Placar ao vivo | SuperLiga</title>
+    <link rel="stylesheet" href="css/placar.css?v=2" />
+  </head>
+  <body>
+    <header class="display-header">
+      <div class="brand">SUPER<span>LIGA</span></div>
+      <div class="display-meta">
+        <strong id="fase">PARTIDA</strong>
+        <span id="conexao" class="connecting">Conectando...</span>
+        <button id="tela-cheia" type="button">Tela cheia</button>
+      </div>
+    </header>
+
+    <main id="placar-publico" aria-live="polite">
+      <section id="painel-a" class="team-panel">
+        <h1 id="nome-a">Time A</h1>
+        <div class="sets"><span id="sets-a">0</span> sets</div>
+        <div id="pontos-a" class="points">0</div>
+      </section>
+
+      <section class="center-panel">
+        <span>SET</span>
+        <strong id="set-atual">1</strong>
+        <b>VS</b>
+        <p id="situacao">PLACAR AO VIVO</p>
+      </section>
+
+      <section id="painel-b" class="team-panel">
+        <h1 id="nome-b">Time B</h1>
+        <div class="sets"><span id="sets-b">0</span> sets</div>
+        <div id="pontos-b" class="points">0</div>
+      </section>
+    </main>
+
+    <div id="mensagem" class="message hidden"></div>
+    <script src="/js/placar.js?v=2"></script>
+  </body>
+</html>

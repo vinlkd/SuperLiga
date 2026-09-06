@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>SuperLiga</title>
-    <link rel="stylesheet" href="/css/site.css?v=7" />
+    <link rel="stylesheet" href="css/site.css?v=15" />
   </head>
   <body>
     <header>
@@ -81,25 +81,51 @@
           <select id="time-a" required aria-label="Primeiro time"></select
           ><b>VS</b
           ><select id="time-b" required aria-label="Segundo time"></select
-          ><select id="fase-partida" required aria-label="Fase da partida"><option>Classificatória</option><option>Semifinal</option><option>Final</option></select
+          ><select id="fase-partida" required aria-label="Fase da partida">
+            <option>Classificatória</option>
+            <option>Semifinal</option>
+            <option>Final</option></select
           ><button class="primary">Montar súmula</button>
         </form>
         <div id="sumula"></div>
         <div id="placar"></div>
       </section>
       <section id="jogos" class="view hidden">
-        <div class="section-title"><div><small>CAMPEONATO</small><h1>Jogos anteriores</h1><p>Cadastre os resultados que ocorreram antes do uso do sistema.</p></div></div>
+        <div class="section-title">
+          <div>
+            <small>CAMPEONATO</small>
+            <h1>Jogos anteriores</h1>
+            <p>Cadastre os resultados que ocorreram antes do uso do sistema.</p>
+          </div>
+        </div>
         <div class="historico-box">
           <h2>Registrar resultado</h2>
           <form id="form-historico" class="historico-form">
             <select id="historico-time-a" required aria-label="Time A"></select>
-            <input id="historico-sets-a" type="number" min="0" max="3" placeholder="Sets A" required />
+            <input
+              id="historico-sets-a"
+              type="number"
+              min="0"
+              max="3"
+              placeholder="Sets A"
+              required
+            />
             <b>VS</b>
-            <input id="historico-sets-b" type="number" min="0" max="3" placeholder="Sets B" required />
+            <input
+              id="historico-sets-b"
+              type="number"
+              min="0"
+              max="3"
+              placeholder="Sets B"
+              required
+            />
             <select id="historico-time-b" required aria-label="Time B"></select>
             <button class="primary">Salvar resultado</button>
           </form>
-          <small>Jogos antigos entram na classificação, mas não geram scout individual.</small>
+          <small
+            >Jogos antigos entram na classificação, mas não geram scout
+            individual.</small
+          >
         </div>
         <div id="lista-jogos" class="games-list"></div>
       </section>
@@ -147,14 +173,84 @@
         </div>
       </form>
     </dialog>
-    <dialog id="tipo-ponto-dialog" class="scout-dialog"><form id="form-tipo-ponto"><small>PONTO</small><h2>Confirmar ponto</h2><input id="ponto-time-id" type="hidden"><label id="ponto-jogador-label">Quem fez o ponto?<select id="ponto-jogador-id"></select></label><div id="point-types" class="point-types"></div><button type="button" data-close-dialog="tipo-ponto-dialog">Cancelar</button></form></dialog>
-    <dialog id="scout-dialog" class="scout-dialog"><div class="scout-head"><div><small>PARTIDA</small><h2 id="scout-titulo">Scout da final</h2></div><button type="button" data-close-dialog="scout-dialog">Fechar</button></div><div id="mvp-partida"></div><div id="scout-tabela" class="table-wrap"></div><form id="form-cartao"><h3>Aplicar cartão</h3><div class="card-form"><select id="cartao-time" required></select><select id="cartao-jogador" required></select><select id="cartao-tipo"><option value="Amarelo">Cartão amarelo</option><option value="Vermelho">Cartão vermelho</option></select><button class="primary">Registrar</button></div></form><div id="cartoes-lista"></div></dialog>
+    <dialog id="tipo-ponto-dialog" class="scout-dialog">
+      <form id="form-tipo-ponto">
+        <small>PONTO</small>
+        <h2>Confirmar ponto</h2>
+        <input id="ponto-time-id" type="hidden" /><label
+          id="ponto-jogador-label"
+          >Quem fez o ponto?<select id="ponto-jogador-id"></select
+        ></label>
+        <div id="point-types" class="point-types"></div>
+        <button type="button" data-close-dialog="tipo-ponto-dialog">
+          Cancelar
+        </button>
+      </form>
+    </dialog>
+    <dialog id="scout-dialog" class="scout-dialog">
+      <div class="scout-head">
+        <div>
+          <small>PARTIDA</small>
+          <h2 id="scout-titulo">Scout da final</h2>
+        </div>
+        <button type="button" data-close-dialog="scout-dialog">Fechar</button>
+      </div>
+      <div id="mvp-partida"></div>
+      <div id="scout-tabela" class="table-wrap"></div>
+      <form id="form-cartao">
+        <h3>Aplicar cartão</h3>
+        <div class="card-form">
+          <select id="cartao-time" required></select
+          ><select id="cartao-jogador" required></select
+          ><select id="cartao-tipo">
+            <option value="Amarelo">Cartão amarelo</option>
+            <option value="Vermelho">Cartão vermelho</option></select
+          ><button class="primary">Registrar</button>
+        </div>
+      </form>
+      <div id="cartoes-lista"></div>
+    </dialog>
+    <dialog id="conectar-placar-dialog" class="connect-score-dialog">
+      <div class="scout-head">
+        <div>
+          <small>TELA EXTERNA</small>
+          <h2>Conectar placar</h2>
+        </div>
+        <button type="button" data-close-dialog="conectar-placar-dialog">
+          Fechar
+        </button>
+      </div>
+      <p>
+        Abra este endereço em um celular, tablet, notebook ou TV. O placar será
+        atualizado automaticamente.
+      </p>
+      <div class="score-link-row">
+        <input
+          id="placar-link"
+          type="text"
+          readonly
+          aria-label="Endereço do placar"
+        />
+        <button type="button" class="primary" data-action="copy-score-link">
+          Copiar link
+        </button>
+      </div>
+      <a
+        id="abrir-placar-link"
+        class="open-score-link"
+        target="_blank"
+        rel="noopener"
+        >Abrir placar neste dispositivo</a
+      >
+    </dialog>
     <dialog id="primeiro-saque-dialog" class="first-serve-dialog">
       <form method="dialog">
         <small>INÍCIO DA PARTIDA</small>
         <h2>Qual time vai começar sacando?</h2>
         <div id="primeiro-saque-times" class="first-serve-times"></div>
-        <button type="button" data-close-dialog="primeiro-saque-dialog">Voltar</button>
+        <button type="button" data-close-dialog="primeiro-saque-dialog">
+          Voltar
+        </button>
       </form>
     </dialog>
     <dialog id="editar-jogador">
@@ -196,7 +292,8 @@
     <dialog id="substituicao-dialog" class="sub-dialog">
       <form id="form-substituicao">
         <small>SUBSTITUIÇÃO</small>
-        <h2>Escolha os jogadores</h2><label>Time<select id="sub-time-id" required></select></label>
+        <h2>Escolha os jogadores</h2>
+        <label>Time<select id="sub-time-id" required></select></label>
         <label
           >Jogador que vai sair<select id="sub-sai" required></select
         ></label>
@@ -212,6 +309,6 @@
       </form>
     </dialog>
     <div id="toast"></div>
-    <script src="/js/app.js?v=19"></script>
+    <script src="/js/app.js?v=20"></script>
   </body>
 </html>

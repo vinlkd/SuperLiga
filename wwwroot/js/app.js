@@ -43,6 +43,8 @@ document.addEventListener("click", (event) => {
     point: () => point(id, +button.dataset.delta),
     substitute: () => abrirSubstituicao(),
     scout: () => abrirScout(),
+    "connect-score": () => abrirConectarPlacar(),
+    "copy-score-link": () => copiarLinkPlacar(),
     "exit-match": () => sairPartida(),
   };
   actions[button.dataset.action]?.();
@@ -301,7 +303,7 @@ function renderScore() {
     pa = match.rotacaoTimeA || 0,
     pb = match.rotacaoTimeB || 0;
   q("#placar").innerHTML =
-    `<div class="scoreboard"><div class="match-clock"><span>${match.fase||'Partida'} • Tempo de jogo</span><strong id="tempo-partida">00:00:00</strong></div><div class="match-toolbar"><button data-action="exit-match">${match.status===2?'Sair da partida':'← Sair da partida'}</button><button class="toolbar-scout" data-action="scout">${match.fase==='Final'?'Scout e cartões':'Cartões'}</button>${match.status===2?'':'<button class="toolbar-sub" data-action="substitute">Substituição</button>'}</div><div class="score-head">${side(match.timeA.nome, match.timeAId, atual.pontosTimeA, sa)}<b>SET ${atual.numero}</b>${side(match.timeB.nome, match.timeBId, atual.pontosTimeB, sb)}</div><div class="courts">${court(match.timeA, pa)}${court(match.timeB, pb)}</div><div class="serve-panels">${servePanel(match.timeA,pa)}${servePanel(match.timeB,pb)}</div></div>`;
+    `<div class="scoreboard"><div class="match-clock"><span>${match.fase||'Partida'} • Tempo de jogo</span><strong id="tempo-partida">00:00:00</strong></div><div class="match-toolbar"><button data-action="exit-match">${match.status===2?'Sair da partida':'← Sair da partida'}</button><button class="toolbar-connect" data-action="connect-score">Conectar placar</button><button class="toolbar-scout" data-action="scout">${match.fase==='Final'?'Scout e cartões':'Cartões'}</button>${match.status===2?'':'<button class="toolbar-sub" data-action="substitute">Substituição</button>'}</div><div class="score-head">${side(match.timeA.nome, match.timeAId, atual.pontosTimeA, sa)}<b>SET ${atual.numero}</b>${side(match.timeB.nome, match.timeBId, atual.pontosTimeB, sb)}</div><div class="courts">${court(match.timeA, pa)}${court(match.timeB, pb)}</div><div class="serve-panels">${servePanel(match.timeA,pa)}${servePanel(match.timeB,pb)}</div></div>`;
   iniciarRelogio();
 }
 function servePanel(team,rot){const ring=[1,6,5,4,3,2],origem=ring[(0-rot+6)%6],proximo=team.jogadores[origem-1],sacando=match.timeSacandoId===team.id,eventos=(match.pontos||[]).slice().reverse();let seguidos=0;if(sacando)for(const e of eventos){if(e.timeId!==team.id)break;seguidos++}const jogador=proximo?.id?`${proximo.numeroCamisa} — ${proximo.nome}`:'Não definido';return `<div class="serve-panel"><b>SAQUE</b><strong>${sacando?jogador:'Ninguém sacando'}</strong><small>${sacando?`Posição 1 • ${seguidos} saque(s) realizado(s)`:`Próximo: ${jogador}`}</small></div>`}
@@ -309,6 +311,29 @@ function sairPartida(){if(match?.status!==2)return abrirConfirmacao('Sair da par
 async function confirmarSaida(){q('#confirmar-dialog').close();match=null;q('#placar').innerHTML='';q('#sumula').innerHTML='';atualizarEstadoPartida(false);await view('partida')}
 function side(nome, id, pontos, sets) {
   return `<div><h2>${nome}</h2><div class="sets">${sets} sets</div><div class="score">${pontos}</div>${match.status === 2 ? (match.vencedorId === id ? '<div class="winner">VENCEDOR</div>' : "") : `<div><button data-action="point" data-id="${id}" data-delta="-1">−1</button><button data-action="point" data-id="${id}" data-delta="1">+1</button></div>`}</div>`;
+}
+
+function abrirConectarPlacar() {
+  if (!match?.id) {
+    toast("Comece uma partida antes de conectar o placar.");
+    return;
+  }
+
+  const url = `${window.location.origin}/placar.html?partida=${match.id}`;
+  q("#placar-link").value = url;
+  q("#abrir-placar-link").href = url;
+  q("#conectar-placar-dialog").showModal();
+}
+
+async function copiarLinkPlacar() {
+  const campo = q("#placar-link");
+  try {
+    await navigator.clipboard.writeText(campo.value);
+    toast("Link do placar copiado.");
+  } catch {
+    campo.select();
+    toast("Link selecionado. Use Ctrl + C para copiar.");
+  }
 }
 function court(team, pontos) {
   const ring = [1, 6, 5, 4, 3, 2],
